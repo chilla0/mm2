@@ -170,9 +170,9 @@ button:focus-visible{outline:2px solid var(--tint);outline-offset:2px;border-rad
 .chat{padding:8px 14px 18px;display:flex;flex-direction:column}
 .cday{align-self:center;font-size:11.5px;color:var(--sec);margin:16px 0 6px;font-weight:500;text-align:center}
 .cday b{font-weight:600}
-.bub{max-width:76%;padding:7px 12px;border-radius:18px;font-size:16px;line-height:1.35;background:#fff;color:#000;align-self:flex-start;margin-top:2px;word-break:break-word;position:relative}
+.bub{max-width:76%;padding:8px 13px;border-radius:18px;font-size:16px;line-height:1.45;background:#fff;color:#000;align-self:flex-start;margin-top:5px;word-break:break-word;position:relative}
 .bub.me{background:var(--tint);color:#fff;align-self:flex-end}
-.bub.gap{margin-top:8px}
+.bub.gap{margin-top:14px}
 .bub.link,.bub.loc{padding:0;overflow:hidden;width:240px}
 .bub .lk-img{height:110px;display:grid;place-items:center}
 .bub .lk-tx{padding:8px 12px;background:#fff;color:#000}
@@ -402,7 +402,7 @@ const NOW = '09:24';
 const people = {
   momoe:     {name:'先輩',   full:'草樹 百恵', yomi:'くさき ももえ', ko:'쿠사키 모모에', tel:'090-4471-2238', row:'さ', bday:['4月9日','4월 9일'],
               addr:['東京都新宿区新宿1丁目18-6　メゾン御苑 402','도쿄도 신주쿠구 신주쿠 1초메 18-6　메종 교엔 402호']},
-  karasuma:  {name:'姉ちゃん', full:'烏丸 弓弦', yomi:'からすま ゆずる', ko:'카라스마 유즈루', tel:'090-1015-0402', row:'な', bday:['10月15日','10월 15일']},
+  karasuma:  {name:'姉ちゃん', full:'烏丸 弓弦', yomi:'からすま ゆずる', ko:'카라스마 유즈루', tel:'090-1015-0402', row:'な', bday:['10月15日','10월 15일'], memo:['ブラックコーヒー。砂糖もミルクもなし','블랙커피. 설탕도 우유도 없이']},
   ogami:     {name:'大神さん', full:'大神 綾徒', yomi:'おおがみ あやと', ko:'오오가미 아야토', tel:'080-0403-7719', row:'あ', bday:['4月3日','4월 3일']},
   inamori:   {name:'稲守さん', full:'稲守 天狐', yomi:'いなもり てんこ', ko:'이나모리 텐코', tel:'090-0503-6181', row:'あ', bday:['5月3日','5월 3일']},
   shishibone:{name:'鹿骨さん', full:'鹿骨 春日', yomi:'ししぼね かすが', ko:'시시보네 카스가', tel:'080-0313-5524', row:'さ', bday:['3月13日','3월 13일']},
@@ -411,10 +411,14 @@ const people = {
   hospital:  {name:'03-5468-1190', tel:'03-5468-1190', unsaved:true},
   bike:      {name:'03-3314-7720', tel:'03-3314-7720', unsaved:true},
   spamA:     {name:'070-6631-2084', tel:'070-6631-2084', unsaved:true},
+  kgma:      {name:'090-7728-3315', tel:'090-7728-3315', unsaved:true},
+  spamB:     {name:'+81 50-3172-9904', tel:'+81 50-3172-9904', unsaved:true},
+  spamC:     {name:'080-2291-6630', tel:'080-2291-6630', unsaved:true},
+  kyosuke:   {name:'鏡介くん', full:'真経津 鏡介', yomi:'まふつ きょうすけ', ko:'마후츠 쿄스케', tel:'080-6517-1017', row:'ま', bday:['10月17日','10월 17일']},
   group:     {name:'烏丸班', tel:'', unsaved:true, group:true},
   group2:    {name:'大神班', tel:'', unsaved:true, group:true}
 };
-const contactOrder = ['inamori','ogami','mother','shishibone','momoe','father','karasuma'];
+const contactOrder = ['inamori','ogami','mother','shishibone','momoe','father','karasuma','kyosuke'];
 /* 읽음 표시가 뜨지 않는 대화 (받을 사람이 없는 번호) */
 const NOREAD = new Set(['karasuma','shishibone','mother','father']);
 /* 전화를 걸면 없는 번호로 나오는 연락처 */
@@ -458,8 +462,13 @@ const threads = {
   ['2024-04-09','00:03',0,'ありがとう〜！起きてたの？','고마워~! 안 자고 있었어?'],
   ['2024-04-09','00:04',1,'日付が変わるの待ってました。プレゼント、明日机に置いておきます','날짜 바뀌는 거 기다렸어요. 선물은 내일 책상에 올려 둘게요'],
   ['2024-04-09','00:04',0,'楽しみにしてる','기대할게'],
-  ['2024-04-09','12:31',0,'のり塩が箱で置いてあった…','김소금맛이 박스로 있던데…'],
-  ['2024-04-09','12:33',1,'量が少ないって言ってたので','양이 적다고 하셨잖아요'],
+  ['2024-04-09','12:31',0,'机の上のこれ、ランニング用のポーチ？','책상 위에 이거, 러닝용 파우치야?'],
+  ['2024-04-09','12:33',1,'はい。走るときスマホと鍵が入ります','네. 달릴 때 폰이랑 열쇠 넣으시라고요'],
+  ['2024-04-09','12:34',0,'さっそく今夜使う','당장 오늘 밤에 써 볼게'],
+  {d:'2024-04-09',t:'23:41',me:0,voice:'0:21',tr:['……\nまひろくん、寝てる？\nえっとね……\n……プレゼント、ありがと\nそれだけ\nおやすみ','……\n마히로 군, 자?\n그게……\n……선물 고마워\n그게 다야\n잘 자']},
+  ['2024-04-09','23:42',0,'いまのなし','방금 거 취소'],
+  ['2024-04-09','23:50',1,'聞きました','들었어요'],
+  ['2024-04-09','23:50',0,'忘れて','잊어'],
   ['2024-08-02','12:15',0,'富士山、今年はもう無理そうだから来年の夏ね','후지산은 올해는 힘들 것 같으니까 내년 여름에 가자'],
   ['2024-08-02','12:20',1,'班のみんなでですか？','반 사람들 다 같이요?'],
   ['2024-08-02','12:20',0,'叔父さんは来ないと思う','삼촌은 안 올 것 같은데'],
@@ -543,7 +552,7 @@ const threads = {
   ['2023-09-28','22:16',1,'起きてます','안 자요'],
   ['2023-09-28','22:18',0,'なんでもない。おやすみ','아니야, 아무것도. 잘 자'],
   ['2023-09-28','22:18',1,'？？　おやすみなさい','?? 안녕히 주무세요'],
-  ['2023-09-29','17:40',0,'神田のオノコロ、七時半ね。遅れないように','간다 오노코로, 일곱 시 반이야. 늦지 말고'],
+  ['2023-09-29','17:40',0,'神田のオノコロ、七時半ね。遅れないように','칸다 오노코로, 일곱 시 반이야. 늦지 말고'],
   ['2023-09-29','17:42',1,'了解です。班長こそ','알겠습니다. 반장님이야말로요'],
   ['2023-09-30','04:12',1,'班長','반장님'],
   ['2023-10-06','23:50',1,'今日、お葬式でした','오늘 장례식이었어요'],
@@ -694,7 +703,7 @@ const threads = {
   ['2023-09-12','10:06',0,'草樹です。よろしくお願いします…！','쿠사키입니다. 잘 부탁드려요…!','momoe'],
   ['2023-09-12','10:06',0,'よろしゅう〜！','잘 부탁해~!','inamori'],
   ['2023-09-12','10:08',1,'よろしくお願いします','잘 부탁드립니다'],
-  ['2023-09-28','21:00',0,'明日の歓迎会、19時半に神田のオノコロね','내일 환영회, 19시 반에 간다 오노코로야','karasuma'],
+  ['2023-09-28','21:00',0,'明日の歓迎会、19時半に神田のオノコロね','내일 환영회, 19시 반에 칸다 오노코로야','karasuma'],
   ['2023-09-28','21:02',0,'楽しみ〜！','기대된다~!','inamori'],
   ['2023-09-28','21:03',0,'ありがとうございます…！','감사합니다…!','momoe'],
   ['2023-09-28','21:04',1,'了解しました','알겠습니다'],
@@ -728,12 +737,73 @@ const threads = {
  hospital:[
   ['2024-10-10','10:00',0,'【東雲大学附属病院】九条様　10月24日(木) 10:00 整形外科のご予約を承っております。','[시노노메 대학 부속 병원] 쿠죠 님, 10월 24일(목) 오전 10시 정형외과 예약이 확인되었습니다.']
  ],
+ kgma:[
+  ['2023-11-05','19:40',0,'九条さん？　鏡介。ばあちゃんのスマホ借りてる','쿠죠 씨? 나 쿄스케. 할머니 폰 빌렸어'],
+  ['2023-11-05','19:42',1,'鏡介くん！元気ですか','쿄스케 군! 잘 지내요?'],
+  ['2023-11-05','19:43',0,'普通','그냥 그래'],
+  ['2023-11-05','19:43',0,'天音は元気？','아마네는 잘 지내?'],
+  ['2023-11-05','20:31',1,'…今度会えたら、ちゃんと話します','…다음에 만나면 제대로 얘기할게요'],
+  ['2023-11-05','20:32',0,'わかった','알았어'],
+  ['2023-12-31','23:58',1,'鏡介くん、よいお年を。ご飯、一人で食べてませんか','쿄스케 군, 새해 복 많이 받아요. 밥은 혼자 먹고 있진 않죠?'],
+  ['2024-01-01','00:10',0,'じいちゃんとばあちゃんと。うるさい','할아버지랑 할머니랑. 시끄러워'],
+  ['2024-01-01','00:11',1,'それはよかったです','다행이네요']
+ ],
+ kyosuke:[
+  ['2024-04-08','17:20',0,'スマホ買ってもらった。鏡介。前のはばあちゃんの','폰 생겼어. 쿄스케야. 전에 건 할머니 거'],
+  ['2024-04-08','17:20',0,'中学入った','중학교 들어갔어'],
+  ['2024-04-08','17:25',1,'おめでとうございます！制服、似合ってますか','축하해요! 교복은 잘 어울려요?'],
+  ['2024-04-08','17:26',0,'知らん','몰라'],
+  ['2024-07-20','15:02',0,'夏休み。ばあちゃんちの近く、川が多い','방학이야. 할머니 집 근처에 강이 많아'],
+  ['2024-07-20','15:10',1,'泳ぐときは気をつけてくださいね','수영할 때 조심해요'],
+  ['2024-07-20','15:10',0,'警察みたい','경찰 같네'],
+  ['2024-07-20','15:11',1,'警察です','경찰 맞아요'],
+  ['2024-10-14','21:20',1,'今週の木曜、誕生日ですよね。何か欲しいものありますか','이번 주 목요일 생일이죠? 갖고 싶은 거 있어요?'],
+  ['2024-10-14','21:41',0,'別にない','딱히 없어'],
+  ['2024-10-14','21:42',1,'じゃあ、選んで送りますね','그럼 제가 골라서 보낼게요'],
+  ['2024-10-14','21:42',0,'変なのはやめて','이상한 건 보내지 마'],
+  ['2024-10-14','21:43',1,'善処します','노력해 보겠습니다']
+ ],
+ spamB:[
+  ['2024-09-12','03:14',0,'【重要】お客様の口座が一時利用停止となっています。本人確認はこちら https://bk-verify-jp.top','[중요] 고객님의 계좌가 일시 이용 정지되었습니다. 본인 확인은 여기서 https://bk-verify-jp.top']
+ ],
+ spamC:[
+  ['2024-08-27','11:02',0,'おめでとうございます！抽選で選ばれました。10万円分のポイントを受け取るには… https://pt-get.click','축하합니다! 추첨에 당첨되셨습니다. 10만 엔 상당의 포인트를 받으시려면… https://pt-get.click']
+ ],
  spamA:[
   ['2024-10-03','12:41',0,'【宅配便】お荷物のお届けにあがりましたが不在の為持ち帰りました。下記よりご確認ください。 http://redeliv-check.xyz/a','[택배] 고객님이 부재중이셔서 물품을 다시 가져왔습니다. 아래 링크에서 확인해 주세요. http://redeliv-check.xyz/a']
  ]
 };
-const threadOrder = ['momoe','karasuma','inamori','group2','ogami','bike','hospital','spamA','mother','father','shishibone','group'];
+const threadOrder = ['momoe','karasuma','inamori','group2','ogami','kyosuke','bike','hospital','spamA','spamB','spamC','mother','father','shishibone','kgma','group'];
 const pinnedThreads = ['momoe'];
+/* 보내지 않은 메시지 (입력창에 남아 있음) */
+const drafts = {karasuma:['姉ちゃん、今日そっちに行くけど、何を話せばいいのか','누나, 오늘 거기 가는데 무슨 얘기를 해야 할지']};
+
+/* 음성 사서함 */
+const voicemail = [
+ {who:'karasuma', d:'2023-09-29', t:'17:55', dur:'0:18', tr:['九条くん、烏丸です。オノコロの場所、分かるよね？　神田の駅出て右。……今日は楽しみにしてるね。じゃあ、あとで','쿠죠 군, 카라스마야. 오노코로 위치 알지? 칸다역 나와서 오른쪽. ……오늘 기대하고 있을게. 그럼 이따 봐']},
+ {who:'mother', d:'2022-08-21', t:'18:59', dur:'0:14', tr:['真尋？　もうすぐハンバーグ焼けるからね。急がなくていいから、気をつけて帰ってきてね','마히로? 이제 곧 함박스테이크 다 구워져. 서두르지 말고 조심해서 와']}
+];
+
+/* 음성 메모 */
+const voicememos = [
+ {n:['新規録音 3','새 녹음 3'], d:'2024-07-12', t:'01:08', dur:'0:03'},
+ {n:['お稲荷さん　祝詞（稲守さん）','이나리 신사　축문 (이나모리 씨)'], d:'2024-03-16', t:'07:22', dur:'1:12'},
+ {n:['新規録音 2','새 녹음 2'], d:'2023-11-02', t:'21:05', dur:'4:36'},
+ {n:['大神班　顔合わせ','오오가미 반　첫 회의'], d:'2023-10-22', t:'08:03', dur:'12:40'}
+];
+
+/* 미리 알림 */
+const reminders = [
+ {t:['年末調整の書類を出す','연말정산 서류 제출'], due:['11月22日','11월 22일'], c:'#ff3b30'},
+ {t:['先輩にタッパーを返す（三つ）','선배한테 반찬통 돌려주기 (세 개)'], due:null},
+ {t:['鏡介くんの誕生日プレゼントを選んで送る','쿄스케 군 생일 선물 골라서 보내기'], due:['10月16日','10월 16일'], c:'#ff9f0a'},
+ {t:['稲守さん　抹茶のお菓子','이나모리 씨　말차 과자'], due:null},
+ {t:['粗大ごみ予約（扇風機）','대형 폐기물 예약 (선풍기)'], due:null},
+ {t:['自転車点検','자전거 점검'], due:['1月','1월']},
+ {t:['ハルノで花を受け取る','하루노에서 꽃 찾기'], due:['今日 9:00','오늘 9:00'], done:1},
+ {t:['新幹線を予約する','신칸센 예매하기'], due:null, done:1},
+ {t:['ブレーキを直す','브레이크 고치기'], due:null, done:1}
+];
 
 const calls = [
  ['2024-10-14','22:20','momoe','out','3:12'],
@@ -759,6 +829,7 @@ const marks = [
  ['08-21',['母さん・父さん 命日','엄마·아빠 기일'],'m'],
  ['10-11',['姉ちゃん 命日','누나 기일'],'m'],
  ['10-15',['姉ちゃん 誕生日','누나 생일'],'b'],
+ ['10-17',['鏡介くん 誕生日','쿄스케 군 생일'],'b'],
  ['11-11',['自分の誕生日','내 생일'],'b']
 ];
 const events = {
@@ -966,7 +1037,7 @@ const notes = [
 `(오오가미 씨 방식)
 
 결론부터
-귀신 수·장소·시각
+오니 수·장소·시각
 누가 뭘 했는지
 감상은 쓰지 말 것
 
@@ -1034,7 +1105,75 @@ const notes = [
 2023.10.12
 여자는 미치시키 사나에. 같이 걷던 아이는 누나.
 불리던 이름은 아직 기억나지 않는다.`]},
- {title:['姉ちゃん','누나'], date:'2023-10-15', time:'00:02', locked:true}
+ {title:['姉ちゃん','누나'], date:'2024-10-15', time:'00:10', locked:true, pass:'1011', body:[
+`姉ちゃんへ
+
+誕生日おめでとう。
+こう呼ぶの、まだ慣れない。書いてて変な感じがする。
+
+何から書けばいいのか分からなくて、さっきから何回も消してる。
+
+給湯室のコーヒー、いつもブラックだったね。
+ぼく、ずっと「ブラックでいいです」って言ってたけど、あれ嘘。
+ほんとはラテのほうが好き。最後にやっと言えた。
+もっと早く言ってたら、姉ちゃん笑ったかな。
+
+歓迎会、行きたかった。
+約束したのに。
+
+姉ちゃんがしたことは、やっぱり許せない。
+先輩の家族のことも、施設の子たちのことも、忘れちゃいけないと思ってる。
+でも、ぼくのことを二十二年も探してくれてたのは、姉ちゃんだけだった。
+それがうれしいって思うのは、だめなんだろうな。たぶん。
+
+ぼくは九条真尋のままでいることにした。
+この体の、本当の持ち主には、ずっと謝りながら。
+
+心配しないで、って書こうとしたけど、
+姉ちゃんにはたぶんバレてるからやめとく。
+
+2023.10.15
+
+
+2024.10.15
+一年たった。
+今日、先輩と神戸に行く。
+ちゃんとやってる。ちゃんとやってるつもり。
+会いたいよ。`,
+`누나에게
+
+생일 축하해.
+이렇게 부르는 거, 아직도 어색해. 쓰면서도 이상한 기분이 들어.
+
+뭐부터 써야 할지 몰라서 아까부터 몇 번이나 지웠다 썼다 하고 있어.
+
+탕비실 커피, 맨날 블랙이었지.
+나 계속 "블랙이면 돼요"라고 했는데, 그거 거짓말이야.
+사실 라떼가 더 좋아. 마지막에 겨우 말했네.
+좀 더 일찍 말했으면 누나가 웃었을까.
+
+환영회, 가고 싶었어.
+약속했었잖아.
+
+누나가 한 일은 역시 용서가 안 돼.
+선배네 가족 일도, 시설 애들 일도, 잊으면 안 된다고 생각해.
+그래도 22년 동안이나 나를 찾아 준 사람은 누나밖에 없었어.
+그게 기쁘다고 생각하면 안 되는 거겠지. 아마.
+
+나는 쿠죠 마히로로 계속 살기로 했어.
+이 몸의 진짜 주인한테는 계속 미안해하면서.
+
+걱정하지 마, 라고 쓰려다가
+누나는 어차피 다 알 것 같아서 그만둘래.
+
+2023.10.15
+
+
+2024.10.15
+1년 지났어.
+오늘 선배랑 고베에 가.
+잘하고 있어. 잘하고 있다고 생각해.
+보고 싶어.`]}
 ];
 
 /* 일기 */
@@ -1092,7 +1231,7 @@ const diary = [
 선배가 접근 금지 술을 거는 게 꽤 빨라졌다.
 
 돌아와서 잠이 안 온다.
-귀신 냄새가 전보다 확실하게 맡아진다. 샤워하고 나서 내 팔 냄새를 맡아 봤다. 잘 모르겠다.`]},
+오니 냄새가 전보다 확실하게 맡아진다. 샤워하고 나서 내 팔 냄새를 맡아 봤다. 잘 모르겠다.`]},
  {d:'2023-11-12', t:'22:40', w:['晴れ','맑음'], body:[
 `昨日、大神さんのおかずを取りに先輩の家へ行って、そのまま泊まった。
 ほろよいを一本もらって、そのあと日本酒とウイスキーも少し。ウイスキーは木の皮みたいな味がした。
@@ -1200,6 +1339,15 @@ const diary = [
 `건강검진. 몸무게가 또 줄었다.
 "수면 시간 확보에 힘쓰십시오"라고 적혀 있었다.
 힘쓰고 있는 것 같은데.`]},
+ {d:'2024-06-24', t:'02:30', w:['雨','비'], body:[
+`疲れた、と書こうとしてやめた。
+生きてるだけで十分なはずだ。この体も、名前も、本当はぼくのものじゃない。
+母さんと父さんの息子も、九条真尋も、生きたかったはずなのに。
+文句を言える立場じゃない。ありがたいと思わないと。`,
+`피곤하다, 라고 쓰려다가 말았다.
+살아 있는 것만으로 충분해야 한다. 이 몸도 이름도 원래 내 것이 아니다.
+엄마 아빠의 아들도, 쿠죠 마히로도 살고 싶었을 텐데.
+불평할 처지가 아니다. 감사하게 여겨야 한다.`]},
  {d:'2024-07-12', t:'01:10', w:['雨','비'], body:[
 `姉ちゃんに会いたい`,
 `누나 보고 싶다`]},
@@ -1224,22 +1372,24 @@ const diary = [
 鬼を祓ってるときだけは、ここにいていい気がする。
 ちゃんと全部やり終えたら、姉ちゃんに会いに行ってもいいかな。`,
 `오늘은 셋. 오오가미 씨가 "잘했다"고 하셨다.
-귀신을 쫓을 때만큼은 여기 있어도 되는 것 같다.
+오니를 쫓을 때만큼은 여기 있어도 되는 것 같다.
 제대로 다 끝내고 나면, 누나 보러 가도 되려나.`]},
  {d:'2024-09-08', t:'02:48', w:['くもり','흐림'], body:[
 `駅のホームで鬼の匂いがした気がして振り返った。普通の会社員だった。
 最近こういうことが多い。
 帰ってから電気もつけずに座ってた。気づいたら二時だった。`,
-`역 승강장에서 귀신 냄새가 난 것 같아서 돌아봤다. 그냥 회사원이었다.
+`역 승강장에서 오니 냄새가 난 것 같아서 돌아봤다. 그냥 회사원이었다.
 요즘 이런 일이 잦다.
 집에 와서 불도 안 켜고 앉아 있었다. 정신 차려 보니 두 시였다.`]},
  {d:'2024-09-18', t:'00:50', w:['くもり','흐림'], body:[
 `ジム、今週も四回行った。ベンチ45kgになった。
 仕事とジムがあれば、一日はちゃんと埋まる。
-それ以外の時間に何をすればいいのかは、よく分からない。`,
+それ以外の時間に何をすればいいのかは、よく分からない。
+こんなことで贅沢を言っちゃいけない。`,
 `헬스장, 이번 주도 네 번 갔다. 벤치 45kg 됐다.
 일이랑 운동이 있으면 하루는 그럭저럭 채워진다.
-그 밖의 시간에 뭘 해야 할지는 잘 모르겠다.`]},
+그 밖의 시간에 뭘 해야 할지는 잘 모르겠다.
+이런 걸로 배부른 소리 하면 안 된다.`]},
  {d:'2024-09-27', t:'22:10', w:['晴れ','맑음'], body:[
 `熱が下がった。先輩が二日続けて来てくれた。
 熱のせいで、言うつもりのなかったことまで言った。
@@ -1286,13 +1436,16 @@ const diary = [
 
 /* 사진 */
 const photos = [
- {d:'2023-10-09', t:'15:42', art:'medal', place:['新宿区 児童養護施設','신주쿠구 아동양호시설']},
+ {d:'2023-10-09', t:'15:42', art:'medal', fav:1, place:['新宿区 児童養護施設','신주쿠구 아동양호시설']},
  {d:'2023-10-28', t:'09:15', art:'mug', place:['警視庁','경시청']},
  {d:'2024-01-01', t:'08:40', art:'onigiri', place:['大神さんの家','오오가미 씨 집']},
  {d:'2024-03-14', t:'21:58', art:'cake', place:['杉並区 阿佐谷北','스기나미구 아사가야키타']},
  {d:'2024-03-16', t:'07:40', art:'inari', place:['中央区 銀座','주오구 긴자']},
  {d:'2024-10-06', t:'19:40', art:'nikujaga', place:['杉並区 阿佐谷北','스기나미구 아사가야키타']},
  {d:'2024-10-12', t:'18:52', art:'bike', place:['杉並区 阿佐谷南','스기나미구 아사가야미나미']},
+ {d:'2023-10-20', t:'19:02', ss:'gomi', place:null},
+ {d:'2024-08-03', t:'00:12', ss:'yamagoya', place:null},
+ {d:'2024-10-13', t:'21:50', ss:'ticket', place:null},
  {d:'2024-10-15', t:'09:04', art:'bouquet', place:['杉並区 阿佐谷北','스기나미구 아사가야키타']}
 ];
 
@@ -1481,7 +1634,7 @@ const wallet = {
   ['2024-10-15','09:03',['花屋 ハルノ','꽃집 하루노'],'¥5,500','card'],
   ['2024-10-15','07:58',['コンビニ 阿佐ヶ谷駅前','편의점 아사가야역 앞'],'¥268','ic'],
   ['2024-10-14','17:42',['スーパー 阿佐ヶ谷北店','슈퍼 아사가야키타점'],'¥1,842','card'],
-  ['2024-10-13','21:48',['えきねっと 東京→新神戸 往復','에키넷 도쿄→신고베 왕복'],'¥29,440','card'],
+  ['2024-10-13','21:48',['えきねっと 東京⇄新神戸 大人2名','에키넷 도쿄⇄신고베 성인 2명'],'¥58,880','card'],
   ['2024-10-13','14:05',['カフェ 南口','카페 남쪽 출구'],'¥480','ic'],
   ['2024-10-12','18:40',['サイクル阿佐ヶ谷','사이클 아사가야'],'¥2,200','card'],
   ['2024-10-11','21:30',['コンビニ','편의점'],'¥638','ic'],
@@ -1560,6 +1713,8 @@ function icon(k){
     case 'wallet': return S(`<rect width="60" height="60" fill="#111"/><rect x="9" y="12" width="42" height="26" rx="4" fill="#3b82f6"/><rect x="9" y="19" width="42" height="26" rx="4" fill="#f5b400"/><rect x="9" y="26" width="42" height="26" rx="4" fill="#34c759"/><rect x="9" y="33" width="42" height="18" rx="4" fill="#ff6b3d"/>`);
     case 'health': return S(`<rect width="60" height="60" fill="#fff"/><path d="M30 46s-15-9-15-20a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20z" fill="#ff2d55"/>`);
     case 'diary': return S(g('gd','#6f8a3c','#3f5a1e')+`<rect width="60" height="60" fill="url(#gd)"/><rect x="15" y="11" width="31" height="38" rx="3" fill="#f7f1e1"/><rect x="15" y="11" width="6" height="38" rx="2" fill="#e3d8bc"/><g stroke="#cfc4a6" stroke-width="1.2"><line x1="25" y1="21" x2="41" y2="21"/><line x1="25" y1="27" x2="41" y2="27"/><line x1="25" y1="33" x2="38" y2="33"/></g><path d="M36 11v15l3-2.4 3 2.4V11z" fill="#d1361f"/>`);
+    case 'reminders': return S(`<rect width="60" height="60" fill="#fff"/>${[0,1,2].map(i=>`<circle cx="16" cy="${17+i*13}" r="4.6" fill="none" stroke="${['#ff9f0a','#007aff','#ff3b30'][i]}" stroke-width="2.2"/><rect x="25" y="${15.5+i*13}" width="22" height="3" rx="1.5" fill="#d1d1d6"/>`).join('')}`);
+    case 'voice': return S(`<rect width="60" height="60" fill="#111"/>${[6,14,22,10,26,18,30,16,24,8,20,12].map((h,i)=>`<rect x="${8+i*3.8}" y="${30-h/2}" width="2.2" height="${h}" rx="1.1" fill="${i<6?'#ff453a':'#8e8e93'}"/>`).join('')}`);
     case 'settings': return S(g('gs','#a1a1a6','#6e6e73')+`<rect width="60" height="60" fill="url(#gs)"/><g transform="translate(30 30)"><circle r="16" fill="#3a3a3c"/>${[...Array(12)].map((_,i)=>`<rect x="-2.5" y="-20" width="5" height="7" rx="1" fill="#3a3a3c" transform="rotate(${i*30})"/>`).join('')}<circle r="11" fill="#8e8e93"/><circle r="6.5" fill="#3a3a3c"/><circle r="3.5" fill="#c7c7cc"/></g>`);
   }
 }
@@ -1567,16 +1722,17 @@ icon.n = 0;
 const APPS = {
   phone:['電話','전화'], msg:['メッセージ','메시지'], browser:['ブラウザ','브라우저'], music:['ミュージック','음악'],
   calendar:['カレンダー','캘린더'], photos:['写真','사진'], camera:['カメラ','카메라'], mail:['メール','메일'],
-  clock:['時計','시계'], weather:['天気','날씨'], maps:['マップ','지도'], notes:['メモ','메모'], files:['ファイル','파일'], wallet:['ウォレット','지갑'], health:['ヘルスケア','건강'], video:['Tube','Tube'], diary:['日記','일기'], settings:['設定','설정']
+  clock:['時計','시계'], weather:['天気','날씨'], maps:['マップ','지도'], notes:['メモ','메모'], files:['ファイル','파일'], wallet:['ウォレット','지갑'], health:['ヘルスケア','건강'], video:['Tube','Tube'], diary:['日記','일기'], reminders:['リマインダー','미리 알림'], voice:['ボイスメモ','음성 메모'], settings:['設定','설정']
 };
 const BADGE = {phone:1, mail:1};
 
 /* ================= 화면 전환 ================= */
 function show(id){ ['lock','pin','home','appScreen'].forEach(s => $('#'+s).hidden = s !== id); }
-let stack = [];
-function openApp(fn){ stack = [fn]; show('appScreen'); fn(); }
-function push(fn){ stack.push(fn); fn(); }
-function back(){ stack.pop(); if (stack.length) stack[stack.length-1](); else show('home'); }
+let stack = [], scrolls = [];
+const scroller = () => document.querySelector('#view .page') || document.querySelector('#view .scroll');
+function openApp(fn){ stack = [fn]; scrolls = []; show('appScreen'); fn(); }
+function push(fn){ const el = scroller(); scrolls[stack.length-1] = el ? el.scrollTop : 0; stack.push(fn); fn(); }
+function back(){ stack.pop(); if (stack.length){ stack[stack.length-1](); const el = scroller(), y = scrolls[stack.length-1]; if (el && y != null) el.scrollTop = y; } else show('home'); }
 function rerender(){ renderStatic(); if (!$('#appScreen').hidden && stack.length) stack[stack.length-1](); }
 $('#homeHit').onclick = () => { if (!$('#home').hidden || !$('#appScreen').hidden) { stack = []; show('home'); } };
 
@@ -1604,6 +1760,7 @@ function renderStatic(){
     <div class="lock-date">${lang==='ko'?'10월 15일 화요일':'10月15日 火曜日'}</div>
     <div class="lock-time">${NOW}</div>
     <div class="notif"><span class="aic">${icon('msg')}</span><b>${esc(people.momoe.name)}</b><small>${L(['4分前','4분 전'])}</small><p>${esc(lang==='ko'?last[4]:last[3])}</p></div>
+    ${[['wallet',['ウォレット','지갑'],['20分前','20분 전'],['花屋 ハルノ　¥5,500','꽃집 하루노　¥5,500']],['msg',['稲守さん','이나모리 씨'],['23分前','23분 전'],['正論やめて','맞는 말 금지']],['weather',['天気','날씨'],['1時間前','1시간 전'],['東京　今日は一日晴れ。最高23°','도쿄　오늘은 하루 종일 맑음. 최고 23°']],['reminders',['リマインダー','미리 알림'],['2時間前','2시간 전'],['ハルノで花を受け取る　9:00','하루노에서 꽃 찾기　9:00']],['video',['Tube','Tube'],['昨日','어제'],['いきもの研究室：カラスの子育てに密着','생물 연구실: 까마귀 육아 밀착 취재']]].map((n,k)=>`<div class="notif" style="margin-top:8px;opacity:${1-k*.12};transform:scale(${1-k*.015})"><span class="aic">${icon(n[0])}</span><b>${esc(L(n[1]))}</b><small>${L(n[2])}</small><p>${esc(L(n[3]))}</p></div>`).join('')}
     <div class="lock-row"><span><svg width="18" height="22" viewBox="0 0 18 22" fill="#2c3812"><path d="M4 0h10v4l-2 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8L4 4z" opacity=".85"/></svg></span><span><svg width="22" height="18" viewBox="0 0 22 18" fill="#2c3812"><path d="M7 2l1.5-2h5L15 2h4a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><circle cx="11" cy="10" r="4" fill="#e9eecf"/></svg></span></div>
     <div class="lock-hint">${L(['タップしてロック解除','탭하여 잠금 해제'])}</div>
   </button>`;
@@ -1642,7 +1799,7 @@ function renderHome(){
       <button class="wdg wx" data-app="weather"><div><small>${L(['東京','도쿄'])}</small><div class="t">17°</div></div><div><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="6"/></svg><small>${L(['晴れ','맑음'])}</small><small>${L(['最高:23° 最低:15°','최고:23° 최저:15°'])}</small></div></button>
       <button class="wdg cal" data-app="calendar"><div><div class="dw">${L(['火曜日','화요일'])}</div><div class="dn">15</div></div><div class="ev">10:33<small>${esc(L(events['2024-10-15'][2][1]))}</small></div></button>
     </div>
-    <div class="grid">${['calendar','photos','camera','mail','clock','weather','maps','notes','diary','files','wallet','health','video','settings'].map(appBtn).join('')}</div>
+    <div class="grid">${['calendar','photos','camera','mail','clock','weather','maps','notes','diary','reminders','voice','files','wallet','health','video','settings'].map(appBtn).join('')}</div>
     <div class="pager"><i class="on"></i><i></i></div>
     <div class="dock">${['phone','browser','msg','music'].map(appBtn).join('')}</div>
   </div>`;
@@ -1650,14 +1807,14 @@ function renderHome(){
 }
 function launch(k){
   const map = {msg:msgList, phone:()=>phoneApp('recent'), photos:photosApp, notes:notesApp, calendar:calendarApp, browser:browserApp,
-    video:()=>videoApp('home'), maps:mapsApp, files:filesApp, wallet:walletApp, health:healthApp, mail:mailApp, settings:settingsApp, clock:clockApp, weather:weatherApp, camera:cameraApp, music:musicApp, diary:diaryApp};
+    video:()=>videoApp('home'), maps:mapsApp, files:filesApp, wallet:walletApp, health:healthApp, mail:mailApp, settings:settingsApp, clock:clockApp, weather:weatherApp, camera:cameraApp, music:musicApp, diary:diaryApp, reminders:remindersApp, voice:voiceApp};
   openApp(map[k]);
 }
 
 /* ================= 메시지 ================= */
 const msgOf = m => Array.isArray(m) ? {d:m[0], t:m[1], me:m[2], ja:m[3], ko:m[4], s:m[5]} : m;
 const sname = id => people[id].name.split(' ')[0];
-function preview(m){ if (m.link) return L(['リンク','링크'])+': '+L(m.link.title); if (m.loc) return L(['位置情報','위치']); return lang==='ko'?m.ko:m.ja; }
+function preview(m){ if (m.voice) return L(['音声メッセージ','음성 메시지']); if (m.link) return L(['リンク','링크'])+': '+L(m.link.title); if (m.loc) return L(['位置情報','위치']); return lang==='ko'?m.ko:m.ja; }
 function avatar(id, cls=''){
   const p = people[id];
   if (p && p.group) return `<span class="av ${cls}" style="background:linear-gradient(180deg,#7a8f4a,#4f6b22)"><svg viewBox="0 0 24 24" fill="#fff"><circle cx="8" cy="9" r="3.2"/><circle cx="16" cy="9" r="3.2"/><path d="M2 20c0-3.6 2.7-6 6-6s6 2.4 6 6zM10 20c0-3.6 2.7-6 6-6s6 2.4 6 6z"/></svg></span>`;
@@ -1668,7 +1825,7 @@ function msgList(){
   const pins = pinnedThreads.map(id => `<button data-th="${id}">${avatar(id)}<span>${esc(people[id].name)}</span></button>`).join('');
   const rows = threadOrder.filter(id => !pinnedThreads.includes(id)).map(id => {
     const m = msgOf(threads[id].at(-1)), p = people[id];
-    return `<button class="trow" data-th="${id}">${avatar(id)}<span class="tx"><span class="tp"><span class="nm">${esc(p.name)}</span><span class="tm">${esc(shortDate(m.d,m.t))} ${chev}</span></span><span class="pv">${m.s?esc(sname(m.s))+': ':''}${esc(preview(m))}</span></span></button>`;
+    return `<button class="trow" data-th="${id}">${avatar(id)}<span class="tx"><span class="tp"><span class="nm">${esc(p.name)}</span><span class="tm">${esc(shortDate(m.d,m.t))} ${chev}</span></span><span class="pv">${drafts[id]?`<b style="color:#ff3b30;font-weight:500">${L(['下書き','임시 저장'])}:</b> ${esc(L(drafts[id]))}`:''}${drafts[id]?'<span hidden>':''}${m.s?esc(sname(m.s))+': ':''}${esc(preview(m))}${drafts[id]?'</span>':''}</span></span></button>`;
   }).join('');
   view(`${nav(null,'',L(['編集','편집']))}<h1 class="large">${L(APPS.msg)}</h1><div class="search">⌕ ${L(['検索','검색'])}</div><div class="scroll"><div class="pinned">${pins}</div>${rows}</div>`);
   $$('#view [data-th]').forEach(b => b.onclick = () => push(() => thread(b.dataset.th)));
@@ -1686,7 +1843,8 @@ function thread(id){
     if (newDay) html += `<div class="cday"><b>${esc(dayLabel(m.d))}</b> ${m.t}</div>`;
     else if (gapH) html += `<div class="cday">${m.t}</div>`;
     const gap = prev && !newDay && prev.me !== m.me ? ' gap' : '';
-    if (m.link) html += `<div class="bub link${m.me?' me':''}${gap}">${linkImg(m.link.img)}<div class="lk-tx">${esc(L(m.link.title))}<small>${m.link.site}</small></div></div>`;
+    if (m.voice) html += `<div class="bub${m.me?' me':''}${gap} vbub" data-vb="${i}" style="cursor:pointer;min-width:220px"><div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg><svg width="110" height="22" viewBox="0 0 110 22">${[6,12,8,16,10,18,7,14,20,9,15,6,12,17,8,11,5,13,9,6].map((h,k)=>`<rect x="${k*5.5}" y="${11-h/2}" width="2.6" height="${h}" rx="1.3" fill="currentColor" opacity=".75"/>`).join('')}</svg><small>${m.voice}</small></div>${m.tr?`<div class="vtr" style="display:none;font-size:14px;margin-top:6px;color:#333;border-top:.5px solid #e5e5ea;padding-top:6px">${esc(L(m.tr))}</div>`:''}<div class="pl"></div></div>`;
+    else if (m.link) html += `<div class="bub link${m.me?' me':''}${gap}">${linkImg(m.link.img)}<div class="lk-tx">${esc(L(m.link.title))}<small>${m.link.site}</small></div></div>`;
     else { if (m.s && !m.me && (!prev || prev.s !== m.s || newDay)) html += `<div style="font-size:11px;color:var(--sec);margin:8px 0 0 12px">${esc(sname(m.s))}</div>`;
       html += `<div class="bub${m.me?' me':''}${gap}">${esc(lang==='ko'?m.ko:m.ja)}</div>`; }
     if (i === lastIdx && m.me && !NOREAD.has(id)) html += `<div class="read">${L(['既読','읽음'])} ${m.d===TODAY?m.t:esc(m.d.slice(5).replace('-','/'))}</div>`;
@@ -1694,9 +1852,11 @@ function thread(id){
   });
   const v = view(`${nav(L(APPS.msg))}<div class="chat-head">${avatar(id,'sm')}<span>${esc(p.name)} ›</span></div>
     <div class="scroll" id="chatScroll"><div class="chat">${html}</div></div>
-    <div class="compose"><span class="plus">+</span><span class="in" data-toast='${T(['送信できません','보낼 수 없습니다'])}'>${L(['メッセージ','메시지'])}</span></div>`);
+    <div class="compose"><span class="plus">+</span><span class="in"  ${drafts[id]?'style="color:#000"':''}>${drafts[id]?esc(L(drafts[id])):L(['メッセージ','메시지'])}</span></div>`);
   if (!p.unsaved) v.querySelector('.chat-head').onclick = () => push(() => contact(id));
   const s = $('#chatScroll'); s.scrollTop = s.scrollHeight;
+  v.querySelectorAll('[data-vb]').forEach(b => b.onclick = () => { const m = list[+b.dataset.vb], tr = b.querySelector('.vtr'), pl = b.querySelector('.pl');
+    if (pl.innerHTML){ pl.innerHTML=''; if (tr) tr.style.display='none'; clearInterval(playT); } else { if (tr) tr.style.display='block'; player(pl, m.voice, 11, tr ? revealer(tr, L(m.tr)) : null); } });
 }
 
 /* ================= 전화 ================= */
@@ -1704,8 +1864,9 @@ const kindLabel = c => c[3]==='out' ? L(['発信','발신']) : c[3]==='in' ? L([
 function phoneTabs(cur){
   const tabs = [['recent',['履歴','최근 기록'],'<path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'],
     ['contacts',['連絡先','연락처'],'<circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5z" fill="currentColor"/>'],
+    ['vm',['留守番電話','음성 사서함'],'<circle cx="7" cy="14" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="14" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 18.5h10" stroke="currentColor" stroke-width="2"/>'],
     ['keypad',['キーパッド','키패드'],[0,1,2].map(r=>[0,1,2].map(c=>`<circle cx="${6+c*6}" cy="${5+r*6}" r="2.2" fill="currentColor"/>`).join('')).join('')+'<circle cx="12" cy="23" r="2.2" fill="currentColor"/>']];
-  return `<div class="tabs">${tabs.map(([k,l,s]) => `<button class="${k===cur?'on':''}" data-ptab="${k}"><svg viewBox="0 0 24 26">${s}</svg>${L(l)}</button>`).join('')}</div>`;
+  return `<div class="tabs" style="grid-template-columns:repeat(4,1fr)">${tabs.map(([k,l,s]) => `<button class="${k===cur?'on':''}" data-ptab="${k}"><svg viewBox="0 0 24 26">${s}</svg>${L(l)}</button>`).join('')}</div>`;
 }
 function bindPhoneTabs(){ $$('#view [data-ptab]').forEach(b => b.onclick = () => { stack = [() => phoneApp(b.dataset.ptab)]; stack[0](); }); }
 let recentFilter = 'all';
@@ -1724,6 +1885,8 @@ function phoneApp(tab){
       if (p.row !== last){ h += `<div class="idx">${p.row}</div>`; last = p.row; }
       return h + `<button class="lrow" data-ct="${id}">${esc(p.name)}</button>`; }).join('');
     body = `${nav(null,'','+')}<h1 class="large">${L(['連絡先','연락처'])}</h1><div class="search">⌕ ${L(['検索','검색'])}</div><div class="scroll"><div class="me-card"><span class="av lg" style="width:60px;height:60px;font-size:24px">九</span><div><b>九条 真尋</b><small>${L(['マイカード','내 카드'])}</small></div></div>${rows}</div>`;
+  } else if (tab === 'vm'){
+    body = `${nav(null,'',L(['編集','편집']))}<h1 class="large">${L(['留守番電話','음성 사서함'])}</h1><div class="scroll"><div class="group">${voicemail.map((v,k)=>`<button class="cell" data-vm="${k}" style="display:block;text-align:left"><span style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(people[v.who].name)}</b><small style="color:var(--sec)">${esc(shortDate(v.d,v.t))}</small></span><small style="color:var(--sec)">${L(['携帯','휴대전화'])}　${v.dur}</small><div class="vmtr" style="display:none;margin-top:8px;font-size:14px;line-height:1.6;background:var(--fill);border-radius:10px;padding:10px 12px"><small style="display:block;color:var(--sec);font-size:11px;margin-bottom:2px">${L(['文字起こし','음성 텍스트 변환'])}</small><span class="trt" style="display:block;min-height:1.6em"></span><div class="pl"></div></div></button>`).join('')}</div><div class="empty" style="padding:10px">${L(['削除済みのメッセージ：0','삭제된 메시지: 0'])}</div></div>`;
   } else {
     const keys = [['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['*',''],['0','+'],['#','']];
     body = `${nav(null)}<div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:40px"><div style="height:50px"></div><div class="keys" style="grid-template-columns:repeat(3,78px)">${keys.map(([n,l])=>`<button class="key" style="background:#e5e5ea;color:#000"><b>${n}</b>${l?`<small>${l}</small>`:''}</button>`).join('')}</div><button style="margin-top:20px;width:78px;height:78px;border-radius:50%;background:var(--green);display:grid;place-items:center;overflow:hidden" data-toast='${T(['番号を入力してください','번호를 입력하세요'])}'>${icon('phone')}</button></div>`;
@@ -1732,6 +1895,7 @@ function phoneApp(tab){
   bindPhoneTabs();
   $$('#view [data-rf]').forEach(b => b.onclick = () => { recentFilter = b.dataset.rf; stack[stack.length-1](); });
   $$('#view [data-ct]').forEach(b => b.onclick = () => push(() => contact(b.dataset.ct)));
+  $$('#view [data-vm]').forEach(b => b.onclick = () => { const t = b.querySelector('.vmtr'); const open = t.style.display==='none'; t.style.display = open?'block':'none'; if (open){ const v = voicemail[+b.dataset.vm]; player(t.querySelector('.pl'), v.dur, +b.dataset.vm*7+3, revealer(t.querySelector('.trt'), L(v.tr))); } else clearInterval(playT); });
 }
 function contact(id){
   const p = people[id];
@@ -1749,7 +1913,7 @@ function contact(id){
     ${p.bday?`<div class="group"><div class="fld"><small>${L(['誕生日','생일'])}</small><span class="plain" style="font-size:15px">${esc(L(p.bday))}</span></div></div>`:''}
     ${p.addr?`<div class="group"><div class="fld"><small>${L(['自宅','집'])}</small><span class="plain" style="font-size:15px;line-height:1.6">${esc(L(p.addr))}</span></div></div>`:''}
     ${hist.length?`<div class="group"><div class="fld"><small>${L(['最近の履歴','최근 기록'])}</small><span class="plain" style="font-size:15px;line-height:1.7">${hist.map(c=>`${esc(dayLabel(c[0]))} ${c[1]}　${kindLabel(c)}`).join('<br>')}</span></div></div>`:''}
-    <div class="group"><div class="fld"><small>${L(['メモ','메모'])}</small><span class="plain" style="min-height:22px;display:block"></span></div></div>
+    <div class="group"><div class="fld"><small>${L(['メモ','메모'])}</small><span class="plain" style="min-height:22px;display:block;font-size:15px">${p.memo?esc(L(p.memo)):''}</span></div></div>
   </div>`);
   $$('#view [data-a="call"]').forEach(b => b.onclick = () => push(() => callScreen(id)));
   const mb = $('#view [data-a="msg"]');
@@ -1792,26 +1956,111 @@ function notesApp(){
 }
 function note(i){
   const n = notes[i];
-  if (n.locked){
+  if (n.locked && !n.open){
     view(`${nav(L(['メモ','메모']))}<div class="locked"><svg width="34" height="44" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="8" width="12" height="9" rx="2"/><path d="M3.5 8V5.5a3.5 3.5 0 0 1 7 0V8"/></svg><b>${L(['このメモはロックされています','이 메모는 잠겨 있습니다'])}</b><small>${esc(longDate(n.date))} ${n.time}</small><button class="btn" id="unlockNote">${L(['メモを表示','메모 보기'])}</button></div>`);
-    $('#unlockNote').onclick = () => toast(['パスワードが違います','암호가 틀렸습니다']);
+    $('#unlockNote').onclick = () => {
+      const box = $('#view .locked');
+      box.querySelector('#unlockNote').outerHTML = `<input id="npw" type="password" inputmode="numeric" maxlength="4" placeholder="${L(['パスワード','암호'])}" style="font:inherit;font-size:18px;text-align:center;letter-spacing:.4em;width:160px;padding:10px;border-radius:10px;border:1px solid var(--sep);background:#fff;margin-top:8px"><small style="color:var(--sec)">${L(['ヒント：あの日','힌트: 그날'])}</small>`;
+      const inp = $('#npw'); inp.focus();
+      inp.oninput = () => { if (inp.value.length === 4){ if (inp.value === n.pass){ n.open = 1; stack[stack.length-1] = () => note(i); note(i); } else { toast(['パスワードが違います','암호가 틀렸습니다']); inp.value = ''; } } };
+    };
     return;
   }
   view(`${nav(L(['メモ','메모']),'','<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><circle cx="7.5" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="16.5" cy="12" r="1" fill="currentColor"/></svg>')}<div class="scroll" style="background:#fff"><div class="note"><div class="nd">${esc(longDate(n.date))} ${n.time}</div><h2>${esc(L(n.title))}</h2><pre>${esc(L(n.body))}</pre></div></div>`);
 }
 
 /* ================= 사진 ================= */
-function photoArt(k){
-  return `<img src="${PHOTO_SRC[k]}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">`;
+function ssArt(k){
+  const SB = (time, dark) => `<div style="height:47px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px 38px;font:600 16px -apple-system,sans-serif;color:${dark?'#fff':'#000'}"><span>${time}</span><span style="display:flex;gap:5px;align-items:center"><svg width="17" height="11" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><span style="width:24px;height:11px;border:1px solid currentColor;border-radius:3px;padding:1px;opacity:.8;display:inline-block"><i style="display:block;height:100%;width:${time==='00:12'?'28%':'62%'};background:currentColor;border-radius:1px"></i></span></span></div>`;
+  const HB = `<div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#000"></div>`;
+  const UB = u => `<div style="position:absolute;left:0;right:0;bottom:0;height:86px;background:rgba(246,246,246,.96);border-top:1px solid #ddd"><div style="margin:8px 12px;height:40px;border-radius:12px;background:#e3e3e8;display:flex;align-items:center;justify-content:center;gap:6px;font-size:15px;color:#000"><svg width="11" height="14" viewBox="0 0 14 18" fill="#000"><rect x="1" y="8" width="12" height="9" rx="2"/><path d="M3.5 8V5.5a3.5 3.5 0 0 1 7 0V8" fill="none" stroke="#000" stroke-width="1.8"/></svg> ${u}</div></div>`;
+  let body = '';
+  if (k === 'ticket') body = `${SB('21:50')}
+    <div style="display:flex;align-items:center;padding:6px 14px 10px;border-bottom:1px solid #e5e5ea"><span style="color:#0b6b3a;font-size:22px">‹</span><b style="flex:1;text-align:center;font-size:17px">${L(['予約の確認','예약 확인'])}</b><span style="width:14px"></span></div>
+    <div style="background:#0b6b3a;color:#fff;margin:14px;border-radius:14px;padding:16px">
+      <div style="font-size:13px;opacity:.85">2024年10月15日(${L(['火','화'])})　${L(['のぞみ21号','노조미 21호'])}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px"><div><div style="font-size:30px;font-weight:700">${L(['東京','도쿄'])}</div><div style="font-size:15px">10:33 ${L(['発','출발'])}</div></div><div style="font-size:22px;padding-bottom:16px">→</div><div style="text-align:right"><div style="font-size:30px;font-weight:700">${L(['新神戸','신고베'])}</div><div style="font-size:15px">13:20 ${L(['着','도착'])}</div></div></div>
+    </div>
+    <div style="margin:0 14px;border-radius:14px;background:#f2f2f7;font-size:15px">${[[['号車・座席','호차·좌석'],['7号車　12番 A・B','7호차　12번 A·B']],[['人数','인원'],['大人 2名','성인 2명']],[['設備','설비'],['普通車 指定席','보통차 지정석']],[['帰り','돌아오는 편'],['10/15　新神戸 19:13 発','10/15　신고베 19:13 출발']],[['お支払い','결제'],'¥58,880']].map(r=>`<div style="display:flex;justify-content:space-between;padding:13px 14px;border-bottom:1px solid #e0e0e5"><span style="color:#6e6e73">${L(r[0])}</span><span>${Array.isArray(r[1])?L(r[1]):r[1]}</span></div>`).join('')}</div>
+    <div style="margin:18px 14px;height:50px;border-radius:25px;background:#0b6b3a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">${L(['QRチケットを表示','QR 티켓 보기'])}</div>
+    <div style="text-align:center;color:#6e6e73;font-size:13px">${L(['発車時刻の6分前までに改札をお通りください','출발 6분 전까지 개찰구를 통과해 주세요'])}</div>${HB}`;
+  else if (k === 'yamagoya') body = `${SB('00:12')}
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #eee;background:#fff"><b style="color:#2c5a8f;font-size:17px">▲ ${L(['山と空','산과 하늘'])}</b><span style="font-size:20px">≡</span></div>
+    <div style="background:#f4f8fc;padding:16px;font-size:15px;line-height:1.7;color:#1d1d1f">
+      <div style="font-size:12px;color:#8e8e93">${L(['富士山 › 山小屋','후지산 › 산장'])}</div>
+      <div style="font-size:21px;font-weight:700;margin:6px 0 12px">${L(['山小屋の予約について','산장 예약 안내'])}</div>
+      <p style="margin:0 0 10px">${L(['富士山の山小屋は、多くが毎年3月下旬から予約の受付を始めます。','후지산 산장은 대부분 매년 3월 하순부터 예약 접수를 시작합니다.'])}</p>
+      <p style="margin:0 0 10px"><span style="background:linear-gradient(transparent 55%,#ffe36b 55%)">${L(['土日やお盆の時期は、受付開始からすぐに満室になります。','주말이나 오봉 연휴 시기에는 접수 시작과 동시에 금방 마감됩니다.'])}</span></p>
+      <p style="margin:0 0 10px">${L(['8合目付近の山小屋に泊まると、翌朝ご来光を見るのにちょうどいい距離です。','8합목 부근 산장에 묵으면 다음 날 아침 일출을 보기에 딱 좋은 거리입니다.'])}</p>
+      <div style="background:#fff;border-radius:12px;padding:12px 14px;margin-top:6px"><b style="color:#2c5a8f">${L(['予約に必要なもの','예약할 때 필요한 것'])}</b><div style="margin-top:4px;font-size:14px">${L(['代表者の氏名・連絡先　人数　到着予定時刻','대표자 이름·연락처　인원　도착 예정 시각'])}</div></div>
+    </div>${UB('yamatosora.jp')}${HB}`;
+  else body = `${SB('19:02')}
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:3px solid #1f6e4a;background:#fff"><b style="color:#1f6e4a;font-size:17px">● ${L(['杉並区','스기나미구'])}</b><span style="font-size:20px">≡</span></div>
+    <div style="padding:14px 16px;font-size:15px;color:#1d1d1f"><div style="font-size:12px;color:#8e8e93">${L(['ホーム › くらし・手続き › ごみ・リサイクル','홈 › 생활·민원 › 쓰레기·재활용'])}</div>
+      <div style="font-size:20px;font-weight:700;margin:8px 0 14px;border-left:5px solid #1f6e4a;padding-left:10px">${L(['資源・ごみの収集日（阿佐谷北）','재활용품·쓰레기 수거일 (아사가야키타)'])}</div>
+      ${[['可燃ごみ','가연 쓰레기','火・金','화·금','#e25b45'],['不燃ごみ','불연 쓰레기','第1・第3水曜','첫째·셋째 수요일','#5a6b7d'],['びん・缶・ペットボトル','병·캔·페트병','木','목','#2f8fd0'],['古紙・段ボール','폐지·종이 박스','土','토','#b58a2c'],['粗大ごみ','대형 폐기물','申込制','신청제','#7a5aa6']].map(r=>`<div style="display:flex;align-items:center;gap:12px;padding:13px 12px;border:1px solid #e3e6e4;border-radius:10px;margin-bottom:9px"><span style="width:9px;height:34px;border-radius:3px;background:${r[4]}"></span><b style="flex:1;font-weight:600">${lang==='ko'?r[1]:r[0]}</b><span style="color:${r[4]};font-weight:700">${lang==='ko'?r[3]:r[2]}</span></div>`).join('')}
+      <div style="font-size:13px;color:#555;margin-top:8px">・${L(['収集日の朝8時までに出してください。','수거일 아침 8시까지 내놓아 주세요.'])}</div></div>${UB('city.suginami.tokyo.jp')}${HB}`;
+  return `<svg viewBox="0 0 390 844" preserveAspectRatio="xMidYMin slice" style="width:100%;height:100%;display:block;background:#fff"><foreignObject x="0" y="0" width="390" height="844"><div xmlns="http://www.w3.org/1999/xhtml" style="width:390px;height:844px;position:relative;background:#fff;font-family:-apple-system,'Hiragino Sans','Noto Sans JP','Noto Sans KR',sans-serif;overflow:hidden">${body}</div></foreignObject></svg>`;
 }
+function photoArt(p){
+  if (p.ss) return ssArt(p.ss);
+  return `<img src="${PHOTO_SRC[p.art]}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">`;
+}
+let phAlbum = 'all';
 function photosApp(){
-  const list = [...photos].sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t));
-  view(`${nav(null,'',L(['選択','선택']))}<h1 class="large">${L(['ライブラリ','보관함'])}</h1><div class="scroll"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px">${list.map(p=>`<button data-ph="${photos.indexOf(p)}" style="aspect-ratio:1;overflow:hidden;display:block">${photoArt(p.art)}</button>`).join('')}</div><div class="empty" style="padding:14px">${L([photos.length+'枚の写真','사진 '+photos.length+'장'])}</div></div>`);
+  const all = [...photos].sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t));
+  const list = all.filter(p => phAlbum==='all' || (phAlbum==='fav' ? p.fav : p.ss));
+  view(`${nav(null,'',L(['選択','선택']))}<h1 class="large">${L(['ライブラリ','보관함'])}</h1>
+    <div class="seg" style="margin:0 16px 10px"><button class="${phAlbum==='all'?'on':''}" data-al="all">${L(['すべて','모두'])}</button><button class="${phAlbum==='fav'?'on':''}" data-al="fav">${L(['お気に入り','즐겨찾기'])}</button><button class="${phAlbum==='ss'?'on':''}" data-al="ss">${L(['スクショ','스크린샷'])}</button></div>
+    <div class="scroll"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px">${list.map(p=>`<button data-ph="${photos.indexOf(p)}" style="aspect-ratio:1;overflow:hidden;display:block;position:relative">${photoArt(p)}${p.fav?'<svg width="16" height="16" viewBox="0 0 24 24" style="position:absolute;left:5px;bottom:5px" fill="#fff"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 6-8 11-8 11z"/></svg>':''}</button>`).join('')}</div><div class="empty" style="padding:14px">${L([list.length+'項目','항목 '+list.length+'개'])}</div></div>`);
+  $$('#view [data-al]').forEach(b => b.onclick = () => { phAlbum = b.dataset.al; stack[stack.length-1](); });
   $$('#view [data-ph]').forEach(b => b.onclick = () => push(() => photoView(+b.dataset.ph)));
 }
 function photoView(i){
   const p = photos[i];
-  view(`${nav(L(['ライブラリ','보관함']),`<span style="font-size:15px;line-height:1.2;display:block">${esc(longDate(p.d))}<small style="display:block;font-size:11px;color:var(--sec);font-weight:400">${p.t}</small></span>`)}<div class="scroll" style="background:#fff;display:flex;flex-direction:column;justify-content:center"><img src="${PHOTO_SRC[p.art]}" alt="" style="width:100%;display:block"><div style="padding:14px 18px;color:var(--sec);font-size:13px;display:flex;gap:6px;align-items:center"><svg width="12" height="14" viewBox="0 0 20 24" fill="currentColor"><path d="M10 0C4.5 0 0 4.4 0 9.8 0 17 10 24 10 24s10-7 10-14.2C20 4.4 15.5 0 10 0zm0 13a3.4 3.4 0 1 1 0-6.8 3.4 3.4 0 0 1 0 6.8z"/></svg>${esc(L(p.place))}</div></div>`);
+  const media = p.ss ? `<div style="width:62%;margin:0 auto;aspect-ratio:390/844;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.18)">${ssArt(p.ss)}</div>` : `<img src="${PHOTO_SRC[p.art]}" alt="" style="width:100%;display:block">`;
+  view(`${nav(L(['ライブラリ','보관함']),`<span style="font-size:15px;line-height:1.2;display:block">${esc(longDate(p.d))}<small style="display:block;font-size:11px;color:var(--sec);font-weight:400">${p.t}</small></span>`)}<div class="scroll" style="background:#fff;display:flex;flex-direction:column;justify-content:center;padding:${p.ss?'16px 0':'0'}">${media}<div style="padding:14px 18px;color:var(--sec);font-size:13px;display:flex;gap:6px;align-items:center">${p.place?`<svg width="12" height="14" viewBox="0 0 20 24" fill="currentColor"><path d="M10 0C4.5 0 0 4.4 0 9.8 0 17 10 24 10 24s10-7 10-14.2C20 4.4 15.5 0 10 0zm0 13a3.4 3.4 0 1 1 0-6.8 3.4 3.4 0 0 1 0 6.8z"/></svg>${esc(L(p.place))}`:L(['スクリーンショット','스크린샷'])}${p.fav?`<span style="margin-left:auto;color:#ff2d55">♥ ${L(['お気に入り','즐겨찾기'])}</span>`:''}</div></div>`);
+}
+
+/* ================= 가짜 재생 플레이어 ================= */
+const secs = d => { const p = d.split(':').map(Number); return p.length===3 ? p[0]*3600+p[1]*60+p[2] : p[0]*60+p[1]; };
+const fmt = t => `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
+let playT = null;
+function wave(n, seed){ let x = seed; return [...Array(n)].map(()=>{ x = (x*9301+49297)%233280; return 4 + Math.round(x/233280*22); }); }
+function player(el, dur, seed=7, onTick=null){
+  clearInterval(playT);
+  const total = secs(dur), bars = wave(46, seed);
+  el.innerHTML = `<div style="margin-top:10px"><div class="pw" style="display:flex;align-items:center;gap:2px;height:30px">${bars.map(h=>`<i style="flex:1;height:${h}px;border-radius:1px;background:#c7c7cc"></i>`).join('')}</div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--sec);margin-top:4px;font-variant-numeric:tabular-nums"><span class="pc">0:00</span><span>-${dur}</span></div>
+    <div style="display:flex;justify-content:center;gap:36px;align-items:center;margin-top:6px"><span style="font-size:13px;color:var(--tint)">-15</span><button class="pp" style="width:40px;height:40px;border-radius:50%;background:var(--tint);display:grid;place-items:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 4v16l13-8z"/></svg></button><span style="font-size:13px;color:var(--tint)">+15</span></div></div>`;
+  let t = 0, on = false;
+  const ws = el.querySelectorAll('.pw i'), pc = el.querySelector('.pc'), pp = el.querySelector('.pp');
+  const draw = () => { const k = Math.round(t/total*ws.length); ws.forEach((w,i)=>w.style.background = i<k ? 'var(--tint)' : '#c7c7cc'); pc.textContent = fmt(t); if (onTick) onTick(t/total); };
+  pp.onclick = e => { e.stopPropagation(); on = !on;
+    pp.innerHTML = on ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 4v16l13-8z"/></svg>';
+    clearInterval(playT); if (on) playT = setInterval(() => { t = Math.min(total, t + .25); draw(); if (t >= total){ clearInterval(playT); on = false; t = 0; pp.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 4v16l13-8z"/></svg>'; draw(); } }, 250);
+  };
+  el.onclick = e => e.stopPropagation();
+}
+
+function revealer(el, text){
+  const segs = (text.includes('\n') ? text.split('\n') : text.split(/(?<=[。？！?!])\s*/)).map(x=>x.trim()).filter(Boolean);
+  el.style.whiteSpace = 'pre-line'; el.textContent = '';
+  return f => { const n = f <= 0 ? 0 : Math.min(segs.length, Math.floor(f * segs.length * 1.05) + 1); el.textContent = segs.slice(0, n).join('\n'); };
+}
+
+/* ================= 미리 알림 ================= */
+function remindersApp(){
+  const open = reminders.filter(r=>!r.done), done = reminders.filter(r=>r.done);
+  const row = r => `<div class="cell" style="align-items:flex-start"><span style="flex:none;width:22px;height:22px;border-radius:50%;border:2px solid ${r.done?'#007aff':'#c7c7cc'};background:${r.done?'#007aff':'transparent'};display:grid;place-items:center;margin-top:1px">${r.done?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5 9-10"/></svg>':''}</span><span class="grow"><span style="display:block;${r.done?'color:var(--sec)':''}">${esc(L(r.t))}</span>${r.due?`<small style="color:${r.c&&!r.done?r.c:'var(--sec)'};font-size:13px">${esc(L(r.due))}</small>`:''}</span></div>`;
+  view(`${nav(L(['リスト','목록']),'',L(['編集','편집']))}<h1 class="large" style="color:#ff9f0a">${L(['やること','할 일'])}</h1><div class="scroll"><div class="group">${open.map(row).join('')}</div><div class="gtitle">${L(['完了','완료됨'])}</div><div class="group">${done.map(row).join('')}</div></div>`);
+}
+
+/* ================= 음성 메모 ================= */
+function voiceApp(){
+  view(`${nav(null,'',L(['編集','편집']))}<h1 class="large">${L(['すべての録音','모든 녹음'])}</h1><div class="scroll"><div class="group">${voicememos.map((v,k)=>`<div class="cell" data-vmm="${k}" style="display:block;cursor:pointer"><b style="font-weight:600;display:block">${esc(L(v.n))}</b><span style="display:flex;justify-content:space-between;color:var(--sec);font-size:13px;margin-top:2px"><span>${esc(shortDate(v.d,v.t))}</span><span>${v.dur}</span></span><div class="pl"></div></div>`).join('')}</div></div>
+    <div style="padding:14px 0 28px;display:grid;place-items:center;background:var(--bg)"><span style="width:62px;height:62px;border-radius:50%;border:3px solid #c7c7cc;display:grid;place-items:center" ><span style="width:48px;height:48px;border-radius:50%;background:#ff3b30"></span></span></div>`);
+  $$('#view [data-vmm]').forEach(b => b.onclick = () => { const k = +b.dataset.vmm; $$('#view [data-vmm] .pl').forEach(x => { if (x !== b.querySelector('.pl')) x.innerHTML=''; }); player(b.querySelector('.pl'), voicememos[k].dur, k*13+5); });
 }
 
 /* ================= 통화 화면 ================= */
@@ -1833,25 +2082,45 @@ function filesApp(){
   $$('#view [data-f]').forEach(b => b.onclick = () => push(() => fileView(+b.dataset.f)));
 }
 const tbl = rows => `<table class="pg-tbl">${rows.map(r=>`<tr><td>${L(r[0])}</td><td>${Array.isArray(r[1])?L(r[1]):r[1]}</td></tr>`).join('')}</table>`;
+const seal = (txt, c='#c8102e', round=false, size=58) => `<svg width="${size}" height="${size}" viewBox="0 0 60 60" style="opacity:.82;mix-blend-mode:multiply;transform:rotate(-6deg)">${round?`<circle cx="30" cy="30" r="26" fill="none" stroke="${c}" stroke-width="3"/><circle cx="30" cy="30" r="21" fill="none" stroke="${c}" stroke-width="1"/>`:`<rect x="5" y="5" width="50" height="50" rx="3" fill="none" stroke="${c}" stroke-width="3.5"/>`}<text x="30" y="${txt.length>2?27:36}" text-anchor="middle" font-size="${txt.length>2?13:18}" font-weight="700" fill="${c}" font-family="'Hiragino Mincho ProN','Noto Serif JP',serif">${txt.length>2?txt.slice(0,2):txt}</text>${txt.length>2?`<text x="30" y="44" text-anchor="middle" font-size="13" font-weight="700" fill="${c}" font-family="'Hiragino Mincho ProN','Noto Serif JP',serif">${txt.slice(2)}</text>`:''}</svg>`;
+const emblem = c => `<svg width="34" height="34" viewBox="0 0 40 40"><g fill="${c}">${[...Array(8)].map((_,i)=>`<path d="M20 2l3 13h-6z" transform="rotate(${i*45} 20 20)"/>`).join('')}<circle cx="20" cy="20" r="8"/></g><circle cx="20" cy="20" r="4" fill="#fff"/></svg>`;
+const sheetWrap = inner => `<div style="background:#5c5c60;padding:18px 14px 40px;min-height:100%"><div style="background:#fdfcf8;background-image:radial-gradient(#00000006 1px,transparent 1px);background-size:3px 3px;box-shadow:0 6px 18px rgba(0,0,0,.35);padding:22px 18px 26px;color:#1d1d1f;font-size:13px;line-height:1.7;position:relative">${inner}</div><div style="color:#c7c7cc;text-align:center;font-size:11px;margin-top:10px">1 / 1</div></div>`;
+const ftbl = (rows, w='36%') => `<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0">${rows.map(r=>`<tr><th style="width:${w};text-align:left;font-weight:500;background:#f1efe8;border:1px solid #c9c5b8;padding:6px 8px">${L(r[0])}</th><td style="border:1px solid #c9c5b8;padding:6px 8px">${Array.isArray(r[1])?L(r[1]):r[1]}</td></tr>`).join('')}</table>`;
 function fileView(i){
   const f = files[i]; let doc = '';
-  if (f.kind === 'jirei') doc = `<div class="pg-body" style="text-align:center;padding-top:40px"><div style="font-family:serif;font-size:30px;letter-spacing:.6em;margin-bottom:26px">${L(['辞令','발령장'])}</div>
-    <div style="text-align:left;font-family:serif;font-size:16px;line-height:2">${L(['巡査　九条 真尋','순경　쿠죠 마히로'])}<br><br>${L(['公安部特殊対策課勤務を命ずる','공안부 특수대책과 근무를 명함'])}<br><br>${L(['令和4年9月5日','2022년 9월 5일'])}<br>${L(['警視総監','경시총감'])}</div></div>`;
-  else if (f.kind === 'kenshin') doc = `<div class="pg-hero" style="background:#f2f5ea;text-align:left"><b style="font-size:18px">${L(['令和6年度 定期健康診断 結果通知書','2024년도 정기 건강검진 결과 통지서'])}</b><div style="font-size:13px;color:#6e6e73;margin-top:4px">${L(['警視庁 健康管理室','경시청 건강관리실'])}</div></div><div class="pg-body">${tbl([
-    [['氏名','성명'],'九条 真尋 (24)'],[['身長 / 体重','신장 / 체중'],'159.0 cm / 50.2 kg'],[['BMI','BMI'],'19.9'],[['血圧','혈압'],'112 / 70'],
-    [['視力','시력'],'1.5 / 1.5'],[['聴力','청력'],L(['異常なし','이상 없음'])],[['AST / ALT','AST / ALT'],'18 / 14'],
-    [['総合判定','종합 판정'],`<b>A　${L(['異常なし','이상 없음'])}</b>`]])}
-    <h3>${L(['医師所見','의사 소견'])}</h3>${L(['体重をもう少し増やしましょう。睡眠時間の確保に努めてください。','체중을 조금 더 늘리십시오. 수면 시간 확보에 힘쓰십시오.'])}</div>`;
-  else if (f.kind === 'receipt') doc = `<div class="pg-hero" style="background:#f4f6f4;text-align:left"><b style="font-size:20px">${L(['領収書','영수증'])}</b><div style="font-size:13px;color:#6e6e73;margin-top:4px">${L(['東雲大学附属病院　東京都渋谷区東','시노노메 대학 부속 병원　도쿄도 시부야구 히가시'])}</div></div><div class="pg-body">${tbl([
-    [['患者氏名','환자 성명'],'九条 真尋 様'],[['入院期間','입원 기간'],['2023年10月11日 〜 10月18日（8日間）','2023년 10월 11일 ~ 10월 18일 (8일간)']],[['診療科','진료과'],['外科','외과']],
-    [['入院料','입원료'],'¥124,160'],[['検査・画像','검사·영상'],'¥28,900'],[['投薬・注射','투약·주사'],'¥15,220'],
-    [['保険適用後 負担額','보험 적용 후 부담액'],'<b>¥50,490</b>']])}<div style="color:#6e6e73;font-size:12px">${L(['※ 公務災害申請済み','※ 공무상 재해 신청 완료'])}</div></div>`;
-  else doc = `<div class="pg-hero" style="background:#f4f6f4;text-align:left"><b style="font-size:20px">${L(['退院療養計画書','퇴원 요양 계획서'])}</b><div style="font-size:13px;color:#6e6e73;margin-top:4px">${L(['東雲大学附属病院 外科','시노노메 대학 부속 병원 외과'])}</div></div><div class="pg-body">${tbl([
-    [['患者氏名','환자 성명'],'九条 真尋 様'],[['入院日','입원일'],['2022年8月21日（救急搬送）','2022년 8월 21일 (응급 이송)']],[['意識回復','의식 회복'],['2022年8月30日','2022년 8월 30일']],[['退院日','퇴원일'],['2022年9月2日','2022년 9월 2일']],
-    [['傷病名','병명'],['右肩・腹部 裂創　多発打撲','오른쪽 어깨·복부 열상　다발성 타박상']],
-    [['退院後の注意','퇴원 후 주의사항'],['2週間は激しい運動を控えること。','2주간 격한 운동 금지.']],
-    [['相談窓口','상담 창구'],['精神科 リエゾン外来（希望時）','정신과 협진 외래 (희망 시)']]])}</div>`;
-  view(`${nav(L(['スキャン','스캔']), `<span style="font-size:15px">${esc(L(f.name))}</span>`)}<div class="page">${doc}</div>`);
+  const serif = `font-family:'Hiragino Mincho ProN','Noto Serif JP','Noto Serif KR',serif`;
+  if (f.kind === 'jirei') doc = sheetWrap(`<div style="border:3px double #6b5a2a;padding:28px 18px 24px;${serif}">
+      <div style="display:flex;justify-content:center;margin-bottom:6px">${emblem('#9a7b2a')}</div>
+      <div style="text-align:center;font-size:30px;letter-spacing:.7em;margin:6px 0 26px;padding-left:.7em">${L(['辞令','발령장'])}</div>
+      <div style="font-size:15px;line-height:2.2">${L(['警視庁　巡査','경시청　순경'])}<br><span style="font-size:20px;letter-spacing:.2em">${L(['九条 真尋','쿠죠 마히로'])}</span></div>
+      <div style="font-size:16px;line-height:2.2;margin:22px 0 28px;text-indent:1em">${L(['公安部特殊対策課勤務を命ずる','공안부 특수대책과 근무를 명함'])}</div>
+      <div style="font-size:14px">${L(['令和四年九月五日','2022년 9월 5일'])}</div>
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:20px;font-size:16px;letter-spacing:.15em">${L(['警視総監','경시총감'])}${seal('総監之印')}</div></div>`);
+  else if (f.kind === 'kenshin') doc = sheetWrap(`<div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #2f5d3a;padding-bottom:8px"><div><div style="font-size:11px;color:#2f5d3a;font-weight:600">${L(['警視庁 健康管理室','경시청 건강관리실'])}</div><div style="font-size:17px;font-weight:700">${L(['令和6年度 定期健康診断 結果通知書','2024년도 정기 건강검진 결과 통지서'])}</div></div><div style="font-size:11px;color:#6e6e73;text-align:right">${L(['受診日','검진일'])}<br>2024.06.20</div></div>
+      ${ftbl([[['氏名','성명'],'九条 真尋'],[['年齢 / 性別','나이 / 성별'],L(['24歳 / 男','24세 / 남'])],[['所属','소속'],L(['公安部 特殊対策課','공안부 특수대책과'])]],'30%')}
+      <div style="font-weight:700;margin:12px 0 4px;color:#2f5d3a">${L(['検査結果','검사 결과'])}</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="background:#2f5d3a;color:#fff"><th style="padding:5px;text-align:left">${L(['項目','항목'])}</th><th style="padding:5px">${L(['結果','결과'])}</th><th style="padding:5px">${L(['基準値','기준치'])}</th><th style="padding:5px">${L(['判定','판정'])}</th></tr>
+      ${[[['身長','신장'],'159.0 cm','—','—'],[['体重','체중'],'50.2 kg','—','B'],['BMI','19.9','18.5–24.9','A'],[['血圧','혈압'],'112/70','〜129/84','A'],[['視力','시력'],'1.5 / 1.5','0.7〜','A'],['AST / ALT','18 / 14','〜30','A'],[['空腹時血糖','공복 혈당'],'86','〜99','A']].map((r,k)=>`<tr style="background:${k%2?'#f6f4ee':'#fff'}"><td style="padding:5px;border-bottom:1px solid #ddd">${L(r[0])}</td><td style="padding:5px;text-align:center;border-bottom:1px solid #ddd">${r[1]}</td><td style="padding:5px;text-align:center;color:#888;border-bottom:1px solid #ddd">${r[2]}</td><td style="padding:5px;text-align:center;font-weight:700;color:${r[3]==='B'?'#c46a00':'#2f5d3a'};border-bottom:1px solid #ddd">${r[3]}</td></tr>`).join('')}</table>
+      <div style="display:flex;gap:10px;margin-top:14px;align-items:stretch"><div style="flex:none;width:76px;border:2px solid #2f5d3a;border-radius:6px;text-align:center;padding:6px 0"><div style="font-size:10px;color:#2f5d3a">${L(['総合判定','종합 판정'])}</div><div style="font-size:30px;font-weight:800;color:#2f5d3a;line-height:1.2">A</div></div><div style="flex:1;border:1px solid #c9c5b8;border-radius:6px;padding:6px 10px"><div style="font-size:10px;color:#6e6e73">${L(['医師所見','의사 소견'])}</div>${L(['体重をもう少し増やしましょう。睡眠時間の確保に努めてください。','체중을 조금 더 늘리십시오. 수면 시간 확보에 힘쓰십시오.'])}</div></div>
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:12px;font-size:12px">${L(['産業医','산업의'])}　${seal('健康管理','#c8102e',true,50)}</div>`);
+  else if (f.kind === 'receipt') doc = sheetWrap(`<div style="display:flex;align-items:center;gap:8px"><svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#1f5fa8"/><path d="M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z" fill="#fff"/></svg><div><div style="font-weight:700;font-size:14px">${L(['東雲大学附属病院','시노노메 대학 부속 병원'])}</div><div style="font-size:10px;color:#6e6e73">${L(['東京都渋谷区東　TEL 03-5468-1190','도쿄도 시부야구 히가시　TEL 03-5468-1190'])}</div></div></div>
+      <div style="text-align:center;font-size:24px;letter-spacing:.6em;padding-left:.6em;margin:16px 0 10px;${serif};border-top:1px solid #1d1d1f;border-bottom:1px solid #1d1d1f;padding-top:6px;padding-bottom:6px">${L(['領収書','영수증'])}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px"><span style="font-size:16px;border-bottom:1px solid #1d1d1f;padding:0 30px 2px 0">九条 真尋　${L(['様','님'])}</span><span style="font-size:11px;color:#6e6e73">No. 2310-18-0447</span></div>
+      <div style="background:#eef3f9;border:1px solid #b9cbe2;border-radius:4px;padding:10px 12px;margin:10px 0;display:flex;justify-content:space-between;align-items:center"><span>${L(['ご請求額','청구 금액'])}</span><b style="font-size:24px;letter-spacing:.04em">¥50,490<span style="font-size:14px">-</span></b></div>
+      ${ftbl([[['入院期間','입원 기간'],['2023/10/11 〜 10/18（8日間）','2023/10/11 ~ 10/18 (8일간)']],[['診療科','진료과'],['外科','외과']],[['入院料','입원료'],'¥124,160'],[['検査・画像','검사·영상'],'¥28,900'],[['投薬・注射','투약·주사'],'¥15,220'],[['保険適用後 負担額','보험 적용 후 부담액'],'<b>¥50,490</b>']])}
+      <div style="font-size:11px;color:#6e6e73">${L(['※ 公務災害申請済み','※ 공무상 재해 신청 완료'])}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px"><span>${L(['2023年10月18日','2023년 10월 18일'])}　${L(['上記正に領収いたしました','위 금액을 정히 영수함'])}</span>${seal('領収','#c8102e',true,54)}</div>`);
+  else {
+    const chk = (on, t) => `<div style="display:flex;gap:6px;align-items:flex-start;margin:3px 0"><span style="flex:none;width:13px;height:13px;border:1.5px solid #444;margin-top:4px;display:grid;place-items:center;font-size:11px;line-height:1">${on?'✓':''}</span><span>${L(t)}</span></div>`;
+    doc = sheetWrap(`<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1f5fa8;padding-bottom:6px"><b style="font-size:17px">${L(['退院療養計画書','퇴원 요양 계획서'])}</b><span style="font-size:11px;color:#1f5fa8;font-weight:600">${L(['東雲大学附属病院 外科','시노노메 대학 부속 병원 외과'])}</span></div>
+      ${ftbl([[['患者氏名','환자 성명'],'九条 真尋　'+L(['様','님'])],[['入院日','입원일'],['2022年8月21日（救急搬送）','2022년 8월 21일 (응급 이송)']],[['意識回復','의식 회복'],['2022年8月30日','2022년 8월 30일']],[['退院日','퇴원일'],['2022年9月2日','2022년 9월 2일']],[['傷病名','병명'],['右肩・腹部 裂創　多発打撲','오른쪽 어깨·복부 열상　다발성 타박상']]],'30%')}
+      <div style="font-weight:700;margin:10px 0 4px;color:#1f5fa8">${L(['退院後の注意','퇴원 후 주의 사항'])}</div>
+      ${chk(1,['2週間は激しい運動を控えること','2주간 격한 운동 금지'])}${chk(1,['入浴は傷口の確認後から','목욕은 상처 확인 후부터'])}${chk(1,['痛み止めは食後に服用','진통제는 식후 복용'])}${chk(0,['飲酒','음주'])}
+      <div style="font-weight:700;margin:10px 0 4px;color:#1f5fa8">${L(['次回受診','다음 진료'])}</div>${L(['2022年9月9日（金）10:00　外科外来','2022년 9월 9일(금) 10:00　외과 외래'])}
+      <div style="font-weight:700;margin:10px 0 4px;color:#1f5fa8">${L(['相談窓口','상담 창구'])}</div>${chk(0,['精神科 リエゾン外来（希望時）','정신과 협진 외래 (희망 시)'])}
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:14px;font-size:12px">${L(['主治医','주치의'])}　<span style="${serif};font-size:15px;border-bottom:1px solid #444;padding:0 10px">${L(['佐伯','사에키'])}</span>${seal('佐伯','#c8102e',true,44)}</div>`);
+  }
+  view(`${nav(L(['スキャン','스캔']), `<span style="font-size:15px">${esc(L(f.name))}</span>`)}<div class="page" style="background:#5c5c60">${doc}</div>`);
 }
 
 /* ================= 브라우저 ================= */
@@ -1989,7 +2258,7 @@ function videoPage(i){
     <div style="display:flex;align-items:center;gap:10px;padding:6px 14px 14px;border-bottom:.5px solid var(--sep)"><span class="av sm">${esc(L(v.ch).slice(0,1))}</span><b style="flex:1">${esc(L(v.ch))}</b><span style="background:#0f0f0f;color:#fff;border-radius:16px;padding:6px 14px;font-size:14px;font-weight:600">${L(['登録','구독'])}</span></div>
     <div class="gtitle" style="padding:14px 14px 8px">${L(['次の動画','다음 동영상'])}</div>
     ${videos.filter((_,j)=>j!==i).slice(0,4).map(w=>`<div style="display:flex;gap:10px;padding:0 14px 12px"><div style="width:150px;flex:none">${thumb(w,0)}</div><div style="font-size:14px;line-height:1.35">${esc(L(w.title))}<small style="display:block;color:#6a6a6a;margin-top:4px">${esc(L(w.ch))}</small></div></div>`).join('')}</div>`);
-  $('#view .pb').onclick = () => toast(['オフラインのため再生できません','오프라인이라 재생할 수 없습니다']);
+  
 }
 
 /* ================= 지도 ================= */
@@ -2012,7 +2281,9 @@ function mapsApp(){
   </svg>
   <div class="sheet"><div class="grab"></div>
     ${sel?`<div style="padding:4px 16px 12px;border-bottom:.5px solid var(--sep)"><b style="font-size:22px">${esc(L(sel.name))}</b><div style="color:var(--sec);font-size:14px;margin-top:4px">${esc(L(sel.addr))}</div></div>`:''}
-    <div class="cell" style="background:var(--fill);margin:10px 16px 0;width:auto;border-radius:10px"><span class="sic" style="background:#4f6b22"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.6"><circle cx="5" cy="13" r="3.2"/><circle cx="15" cy="13" r="3.2"/><path d="M5 13l3-6h5l2 6M8 7l2 6h0M12 5h2"/></svg></span><span class="grow"><span style="display:block">${L(['自宅 → 警視庁','집 → 경시청'])}</span><small style="color:var(--sec);font-size:13px">${L(['自転車・青梅街道経由','자전거 · 오메 가도 경유'])}</small></span><b style="color:#34a853">52${L(['分','분'])}</b></div><div class="gtitle" style="padding:12px 16px 6px">${L(['よく行く場所','자주 가는 장소'])}</div>
+    <div class="cell" style="background:var(--fill);margin:10px 16px 0;width:auto;border-radius:10px"><span class="sic" style="background:#4f6b22"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.6"><circle cx="5" cy="13" r="3.2"/><circle cx="15" cy="13" r="3.2"/><path d="M5 13l3-6h5l2 6M8 7l2 6h0M12 5h2"/></svg></span><span class="grow"><span style="display:block">${L(['自宅 → 警視庁','집 → 경시청'])}</span><small style="color:var(--sec);font-size:13px">${L(['自転車・青梅街道経由','자전거 · 오메 가도 경유'])}</small></span><b style="color:#34a853">52${L(['分','분'])}</b></div><div class="gtitle" style="padding:14px 16px 6px">${L(['今日の経路','오늘의 경로'])}</div>
+    <div style="margin:0 16px;background:var(--cell);border-radius:12px;padding:12px 14px;font-size:14px">${[['09:41','阿佐ヶ谷','아사가야',['JR中央線快速','JR 주오선 쾌속'],'#f15a22'],['10:08','東京','도쿄',['のぞみ21号　7号車','노조미 21호　7호차'],'#1a5fb4'],['13:20','新神戸','신고베',null,null]].map((r,k,a)=>`<div style="display:flex;gap:10px"><span style="width:40px;color:var(--sec);font-variant-numeric:tabular-nums">${r[0]}</span><span style="display:flex;flex-direction:column;align-items:center;width:12px"><i style="width:10px;height:10px;border-radius:50%;border:2.5px solid ${r[4]||a[k-1][4]};background:#fff;margin-top:4px"></i>${r[3]?`<i style="flex:1;width:4px;background:${r[4]};min-height:26px"></i>`:''}</span><span style="flex:1;padding-bottom:${r[3]?10:0}px"><b style="font-weight:600">${lang==='ko'?r[2]:r[1]}</b>${r[3]?`<small style="display:block;color:var(--sec)">${L(r[3])}</small>`:''}</span></div>`).join('')}<div style="display:flex;justify-content:space-between;margin-top:8px;border-top:.5px solid var(--sep);padding-top:8px;color:var(--sec);font-size:13px"><span>${L(['3時間39分','3시간 39분'])}</span><span>¥14,720</span></div></div>
+    <div class="gtitle" style="padding:12px 16px 6px">${L(['よく行く場所','자주 가는 장소'])}</div>
     ${places.map(p=>`<button class="cell" data-pl="${p.id}"><span class="sic" style="background:${p.c};border-radius:50%"><svg viewBox="0 0 20 20" fill="#fff"><circle cx="10" cy="10" r="4"/></svg></span><span class="grow"><span style="display:block">${esc(L(p.name))}</span><small style="color:var(--sec);font-size:13px">${esc(L(p.addr))}</small></span></button>`).join('')}
   </div></div>`);
   $$('#view [data-pl]').forEach(b => b.onclick = () => { mapSel = b.dataset.pl; mapsApp(); });
@@ -2047,7 +2318,8 @@ function settingsApp(){
   const rows3 = [
     ['general', sIcon('#8e8e93','<circle cx="10" cy="10" r="3"/><path d="M10 2l1.5 2.5 3-.5.5 3 2.5 1.5L16 11l1.5 2.5-2.5 1.5-.5 3-3-.5L10 20l-1.5-2.5-3 .5-.5-3L2.5 13.5 4 11 2.5 8.5 5 7l.5-3 3 .5z" fill="none" stroke="#fff" stroke-width="1.6"/>'),['一般','일반']],
     ['', sIcon('#0a84ff','<path d="M10 3l1.6 3.4L15 8l-3.4 1.6L10 13l-1.6-3.4L5 8l3.4-1.6z"/>'),['画面表示と明るさ','디스플레이 및 밝기']],
-    ['', sIcon('#30b0c7','<path d="M3 4h14v12H3z" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M4 15l4-5 3 3 2-2 3 4z"/>'),['壁紙','배경화면']],
+    ['bat', sIcon('#30d158','<rect x="2" y="6" width="14" height="8" rx="2" fill="none" stroke="#fff" stroke-width="1.6"/><rect x="4" y="8" width="6" height="4" rx="1" fill="#fff"/><rect x="16.5" y="8.5" width="1.5" height="3" rx=".7" fill="#fff"/>'),['バッテリー','배터리']],
+    ['wp', sIcon('#30b0c7','<path d="M3 4h14v12H3z" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M4 15l4-5 3 3 2-2 3 4z"/>'),['壁紙','배경화면']],
     ['', sIcon('#0a84ff','<path d="M10 2l6 3v5c0 4-2.6 7-6 8-3.4-1-6-4-6-8V5z"/>'),['プライバシーとセキュリティ','개인정보 보호 및 보안']]
   ];
   view(`${nav(null)}<h1 class="large">${L(APPS.settings)}</h1><div class="search">⌕ ${L(['検索','검색'])}</div><div class="scroll">
@@ -2058,6 +2330,31 @@ function settingsApp(){
   </div>`);
   $$('#view [data-s="general"]').forEach(b => b.onclick = () => push(generalSettings));
   $$('#view [data-s="st"]').forEach(b => b.onclick = () => push(screenTime));
+  $$('#view [data-s="wp"]').forEach(b => b.onclick = () => push(wallpaperSettings));
+  $$('#view [data-s="bat"]').forEach(b => b.onclick = () => push(batterySettings));
+}
+function wallpaperSettings(){
+  const mini = (bg, time, cur) => `<div style="flex:1;text-align:center"><div style="aspect-ratio:9/19.5;border-radius:16px;${bg};box-shadow:0 2px 10px rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;padding-top:22%;outline:${cur?'3px solid var(--tint)':'none'};outline-offset:3px"><b style="font-size:26px;font-weight:600;color:${cur?'#2c3812':'#fff'}">${time}</b></div></div>`;
+  view(`${nav(L(APPS.settings), L(['壁紙','배경화면']))}<div class="scroll" style="padding:16px">
+    <div class="gtitle" style="padding:0 4px 8px">${L(['現在の壁紙','현재 배경화면'])}</div>
+    <div style="display:flex;gap:18px;padding:0 30px">${mini('background:radial-gradient(70% 45% at 82% 10%,rgba(255,214,90,.85),transparent 65%),radial-gradient(80% 55% at 5% 92%,rgba(140,178,74,.75),transparent 66%),linear-gradient(170deg,#fff9e2,#e2edc7)','9:24',1)}${mini('background:radial-gradient(70% 45% at 82% 10%,rgba(255,214,90,.85),transparent 65%),linear-gradient(170deg,#fff9e2,#e2edc7)','9:24',1)}</div>
+    <div style="text-align:center;color:var(--sec);font-size:13px;margin:10px 0 22px">${L(['2023年10月19日に設定','2023년 10월 19일에 설정'])}</div>
+    <div class="gtitle" style="padding:0 4px 8px">${L(['最近使った壁紙','최근 사용한 배경화면'])}</div>
+    <div style="display:flex;gap:12px">${[['background:linear-gradient(160deg,#1c1c22,#3a3a48)','2023年10月まで','2023년 10월까지'],['background:linear-gradient(160deg,#1e3c72,#2a5298)','2022年9月まで','2022년 9월까지'],['background:linear-gradient(160deg,#f6d365,#fda085)','2022年8月まで','2022년 8월까지']].map(w=>`<div style="flex:1;text-align:center"><div style="aspect-ratio:9/19.5;border-radius:12px;${w[0]}"></div><small style="display:block;color:var(--sec);margin-top:6px;font-size:11px">${L([w[1],w[2]])}</small></div>`).join('')}</div>
+  </div>`);
+}
+function batterySettings(){
+  const hrs = [3,5,6,4,2,1,0,1,3,2,2,3,4,2,2,3,2,3,4,5,4,6,7,8];
+  view(`${nav(L(APPS.settings), L(['バッテリー','배터리']))}<div class="scroll" style="padding-top:12px">
+    <div class="group" style="padding:14px 16px"><div style="display:flex;justify-content:space-between"><b>${L(['バッテリー残量','배터리 잔량'])}</b><span style="color:var(--sec)">41%</span></div>
+      <div style="font-size:13px;color:var(--sec);margin-top:10px">${L(['過去24時間の使用状況','지난 24시간 사용량'])}</div>
+      <div style="display:flex;align-items:flex-end;gap:3px;height:80px;margin-top:8px">${hrs.map((h,k)=>`<span style="flex:1;height:${Math.max(2,h*10)}px;border-radius:2px;background:${k<5?'#ff9f0a':'#34c759'}"></span>`).join('')}</div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--sec);margin-top:4px"><span>0${L(['時','시'])}</span><span>6</span><span>12</span><span>18</span><span>24</span></div>
+      <div style="font-size:12px;color:#c46a00;margin-top:8px">${L(['深夜0時〜5時の使用が多くなっています','새벽 0시~5시 사용량이 많습니다'])}</div></div>
+    <div class="gtitle">${L(['アプリごとの使用状況','앱별 사용량'])}</div>
+    <div class="group">${[['msg',31],['diary',18],['video',16],['music',12],['notes',9],['browser',8]].map(a=>`<div class="cell ind"><span class="ic" style="width:30px;height:30px;border-radius:7px;overflow:hidden;display:block;flex:none">${icon(a[0])}</span><span class="grow">${esc(L(APPS[a[0]]))}</span><span class="val">${a[1]}%</span></div>`).join('')}</div>
+    <div class="gtitle">${L(['バッテリーの状態','배터리 성능 상태'])}</div><div class="group"><div class="cell"><span class="grow">${L(['最大容量','최대 용량'])}</span><span class="val">91%</span></div></div>
+  </div>`);
 }
 function generalSettings(){
   const items = [['about',['情報','정보']],['',['ソフトウェアアップデート','소프트웨어 업데이트']],['',['ストレージ','저장 공간']],['lang',['言語と地域','언어 및 지역']],['',['日付と時刻','날짜 및 시간']],['',['キーボード','키보드']]];
@@ -2110,7 +2407,9 @@ function cameraApp(){
   view(`<div class="cam"><div class="vf"><div class="flash" id="flash"></div></div><div class="modes"><span>${L(['タイムラプス','타임랩스'])}</span><span>${L(['ビデオ','비디오'])}</span><b>${L(['写真','사진'])}</b><span>${L(['ポートレート','인물 사진'])}</span><span>${L(['パノラマ','파노라마'])}</span></div>
     <div class="ctrl"><button class="lastp" id="lastp" aria-label="photos"></button><button class="shot" id="shot" aria-label="shutter"><i></i></button><span style="width:46px;height:46px;border-radius:50%;background:#2c2c2e;display:grid;place-items:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 9a8 8 0 0 1 14-3l2-2v6h-6l2.2-2.2A6 6 0 0 0 6 9zM20 15a8 8 0 0 1-14 3l-2 2v-6h6l-2.2 2.2A6 6 0 0 0 18 15z"/></svg></span></div></div>`);
   $('#shot').onclick = () => { const f = $('#flash'); f.style.opacity = .9; setTimeout(() => f.style.opacity = 0, 120); };
-  $('#lastp').onclick = () => openApp(photosApp);
+  const lp = [...photos].filter(p=>!p.ss).sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t)).at(-1);
+  $('#lastp').style.cssText += `;background:url(${PHOTO_SRC[lp.art]}) center/cover`;
+  $('#lastp').onclick = () => { openApp(photosApp); push(() => photoView(photos.indexOf(lp))); };
 }
 
 /* ================= 지갑 ================= */
@@ -2168,11 +2467,11 @@ function musicApp(){
   $$('#view [data-pl]').forEach(b => b.onclick = () => push(() => playlist({...music.recs[+b.dataset.pl], by:['ミュージック編集部','음악 편집부']})));
 }
 function playlist(p){
-  const btn = (t) => `<button style="flex:1;background:var(--cell);border-radius:10px;padding:12px;color:var(--red);font-weight:600" data-toast='${T(['オフラインのため再生できません','오프라인이라 재생할 수 없습니다'])}'>${t}</button>`;
+  const btn = (t) => `<button style="flex:1;background:var(--cell);border-radius:10px;padding:12px;color:var(--red);font-weight:600" >${t}</button>`;
   view(`${nav(L(['今すぐ聴く','지금 듣기']))}<div class="scroll"><div style="text-align:center;padding:10px 40px 10px"><div style="aspect-ratio:1;border-radius:12px;background:linear-gradient(135deg,${p.c[0]},${p.c[1]});box-shadow:0 10px 30px rgba(0,0,0,.15);display:grid;place-items:center">${p.own?`<svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/></svg>`:''}</div>
     <h2 style="margin:16px 0 4px;font-size:22px">${esc(L(p.n))}</h2><div style="color:var(--red);font-size:16px">${esc(L(p.by))}</div>${p.len?`<div style="color:var(--sec);font-size:13px;margin-top:4px">${esc(L(p.len))}${p.own?L(['・2024年1月作成','· 2024년 1월 생성']):''}</div>`:''}
     <div style="display:flex;gap:12px;margin-top:18px">${btn('▶ '+L(['再生','재생']))}${btn('⤨ '+L(['シャッフル','셔플']))}</div></div>
-    ${p.tracks?`<div class="group" style="margin-top:8px">${p.tracks.map((t,i)=>`<div class="cell" data-toast='${T(['オフラインのため再生できません','오프라인이라 재생할 수 없습니다'])}'><span style="width:20px;color:var(--sec);font-size:14px;text-align:center">${i+1}</span><span class="grow"><span style="display:block;font-size:15px">${esc(t[0])}</span><small style="color:var(--sec);font-size:13px">${esc(t[1])}</small></span><small style="color:var(--sec)">${t[2]}</small></div>`).join('')}</div>`:`<div class="empty" style="padding:20px">${L(['登録すると全曲を聴けます','구독하면 전곡을 들을 수 있습니다'])}</div>`}
+    ${p.tracks?`<div class="group" style="margin-top:8px">${p.tracks.map((t,i)=>`<div class="cell" ><span style="width:20px;color:var(--sec);font-size:14px;text-align:center">${i+1}</span><span class="grow"><span style="display:block;font-size:15px">${esc(t[0])}</span><small style="color:var(--sec);font-size:13px">${esc(t[1])}</small></span><small style="color:var(--sec)">${t[2]}</small></div>`).join('')}</div>`:`<div class="empty" style="padding:20px">${L(['登録すると全曲を聴けます','구독하면 전곡을 들을 수 있습니다'])}</div>`}
   </div>`);
 }
 
